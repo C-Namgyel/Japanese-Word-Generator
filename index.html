@@ -1,0 +1,113 @@
+<html>
+    <head>
+        <title>Japanese Word Generator</title>
+        <meta id="meta" name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <style>
+#buttonHolder {
+    position: absolute;
+    left: 5%;
+    width: 90%;
+    top: 5%;
+    height: 30%;
+}
+#length {
+    position: absolute;
+    left: 5%;
+    width: 90%;
+    text-align: center;
+}
+#generate {
+    position: absolute;
+    left: 25%;
+    width: 50%;
+}
+#result {
+    position: absolute;
+    left: 0%;
+    width: 100%;
+    text-align: center;
+}
+#answer {
+    position: absolute;
+    left: 5%;
+    width: 90%;
+    text-align: center;
+}
+#check {
+    position: absolute;
+    left: 25%;
+    width: 50%;
+}
+
+.toggleOn {
+    background-color: green;
+}
+.toggleOff {
+    background-color: initial;
+}
+
+        </style>
+    </head>
+    <body>
+        <div id="buttonHolder"></div>
+        <input type="number" value="2" placeholder="Number of characters" id="length">
+        <button id="generate">Generate</button>
+        <label id="result">_____</label>
+        <input placeholder="Answer" id="answer">
+        <button id="check">Check Answer</button>
+    </body>
+    <script>
+var chars = ["あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ", "さ", "し", "す", "せ", "そ", "た", "ち", "つ", "て", "と", "な", "に", "ぬ", "ね", "の", "は", "ひ", "ふ", "へ", "ほ", "ま", "み", "む", "め", "も", "や", "ゆ", "よ", "ら", "り", "る", "れ", "ろ", "わ", "を", "ん"]
+var engChar = ["a", "i", "u", "e", "o", "ka", "ki", "ku", "ke", "ko", "sa", "shi", "su", "se", "so", "ta", "chi", "tsu", "te", "to", "na", "ni", "nu", "ne", "no", "ha", "hi", "fu", "he", "ho", "ma", "mi", "mu", "me", "mo", "ya", "yu", "yo", "ra", "ri", "ru", "re", "ro", "wa", "wo", "n"]
+var opts = ["あ", "い", "う", "え", "お"]
+var ans;
+for (x of chars) {
+    let btn = document.createElement("button")
+    btn.innerHTML = x
+    if (opts.includes(x)) {
+        btn.className = "toggleOn"
+    } else {
+        btn.className = "toggleOff"
+    }
+    btn.onclick = function() {
+        if (opts.includes(this.innerHTML) == true) {
+            opts.splice(opts.indexOf(this.innerHTML), 1)
+            this.className = "toggleOff"
+        } else {
+            opts.push(this.innerHTML)
+            this.className = "toggleOn"
+        }
+    }
+    btn.style.margin = "1.5%"
+    document.getElementById("buttonHolder").appendChild(btn)
+}
+document.getElementById("length").style.top = document.getElementById("buttonHolder").offsetHeight + (window.screen.height * 0.05) + "px"
+document.getElementById("generate").style.top = document.getElementById("buttonHolder").offsetHeight + (window.screen.height * 0.05) + (window.screen.height * 0.10) + "px"
+document.getElementById("result").style.top = document.getElementById("buttonHolder").offsetHeight + (window.screen.height * 0.05) + (window.screen.height * 0.20) + "px"
+document.getElementById("answer").style.top = document.getElementById("buttonHolder").offsetHeight + (window.screen.height * 0.05) + (window.screen.height * 0.30) + "px"
+document.getElementById("check").style.top = document.getElementById("buttonHolder").offsetHeight + (window.screen.height * 0.05) + (window.screen.height * 0.40) + "px"
+document.getElementById("generate").onclick = function() {
+    let rand = ""
+    ans = ""
+    for (i = 0; i < document.getElementById("length").value; i++) {
+        console.log(opts.length)
+        randChar = opts[Math.floor(Math.random() * (opts.length - 1) + 1)]
+        rand += randChar
+        ans += engChar[chars.indexOf(randChar)]
+    }
+    document.getElementById("result").innerHTML = rand
+}
+document.getElementById("check").onclick = function() {
+    if (document.getElementById("answer").value == ans) {
+        alert("Correct!")
+        document.getElementById("generate").click()
+        document.getElementById("answer").value = ""
+    } else {
+        alert("Wrong! Try Again...")
+    }
+}
+document.getElementById("answer").oninput = function() {
+    this.value = this.value.toLowerCase()
+}
+    </script>
+</html>
